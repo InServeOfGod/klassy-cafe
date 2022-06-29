@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -19,16 +20,34 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *     pattern="/[$&+,:;=?@#|'<>.^*()%!-]/",
+     *     match=false,
+     *     message="regex.special_chars"
+     * )
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=128)
+     * @Assert\Length(
+     *     max=128,
+     *     maxMessage="contact.len.email"
+     * )
+     * @Assert\Email()
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=16)
+     * @Assert\Regex(
+     *     pattern="/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.0-9]*$/",
+     *     message="contact.regex.phone"
+     * )
+     * @Assert\Length(
+     *     max=16,
+     *     maxMessage="contact.len.phone"
+     * )
      */
     private $phone_number;
 
@@ -39,16 +58,33 @@ class Contact
 
     /**
      * @ORM\ManyToOne(targetEntity=DayTimes::class, inversedBy="contacts")
+     * @Assert\Regex(
+     *     pattern="/[$&+,:;=?@#|'<>.^*()%!-]/",
+     *     match=false,
+     *     message="regex.special_chars"
+     * )
      */
     private $day_time;
 
     /**
      * @ORM\ManyToOne(targetEntity=Guests::class, inversedBy="contacts")
+     * @Assert\Regex (
+     *     pattern="/\d/"
+     * )
      */
     private $guest;
 
     /**
      * @ORM\Column(type="string", length=1024)
+     * @Assert\Length(
+     *     max=1024,
+     *     maxMessage="contact.len.msg"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[<>]/",
+     *     match=false,
+     *     message="regex.special_chars"
+     * )
      */
     private $msg;
 

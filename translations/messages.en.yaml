@@ -1,0 +1,9 @@
+contact:
+    placeholder:
+        name: Your Name*
+        email: Your Email Address*
+        phone_number: Phone Number*
+        guest: Number Of Guests
+        reservation_date: dd/mm/yyyy
+        day_time: Time
+        msg: Message

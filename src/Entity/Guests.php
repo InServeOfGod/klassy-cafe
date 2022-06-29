@@ -20,7 +20,7 @@ class Guests
     private $id;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=11)
      */
     private $guest;
 
@@ -39,12 +39,12 @@ class Guests
         return $this->id;
     }
 
-    public function getGuest(): ?int
+    public function getGuest(): ?string
     {
         return $this->guest;
     }
 
-    public function setGuest(int $guest): self
+    public function setGuest(string $guest): self
     {
         $this->guest = $guest;
 
@@ -79,5 +79,9 @@ class Guests
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->guest;
     }
 }

@@ -1,0 +1,12 @@
+contact:
+    len:
+        email: Your email address can not exceed {{ limit }} characters long
+        phone: Your phone number can not exceed {{ limit }} characters long
+        msg: Your message can not exceed {{ limit }} characters long
+
+    regex:
+        name: Your name can not contain special characters
+        phone: Your phone number is invalid
+
+regex:
+    special_chars: This field can not contain special characters

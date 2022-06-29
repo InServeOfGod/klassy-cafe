@@ -34,6 +34,11 @@ class DayTimes
      */
     private $offersMenuses;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
@@ -113,6 +118,22 @@ class DayTimes
                 $offersMenus->setDayTime(null);
             }
         }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->day_time;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }
