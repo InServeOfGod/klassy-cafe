@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OffersMenusRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,9 +40,29 @@ class OffersMenus
     private $price;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    private $cost;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $count;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Customers::class, mappedBy="offer_menu")
+     */
+    private $customers;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +125,60 @@ class OffersMenus
     public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getCost(): ?float
+    {
+        return $this->cost;
+    }
+
+    public function setCost(float $cost): self
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Customers>
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customers $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setOfferMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customers $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getOfferMenu() === $this) {
+                $customer->setOfferMenu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCount(): ?int
+    {
+        return $this->count;
+    }
+
+    public function setCount(int $count): self
+    {
+        $this->count = $count;
 
         return $this;
     }

@@ -19,6 +19,7 @@ use App\Entity\OffersMenus;
 use App\Entity\PhoneNumbers;
 use App\Entity\Settings;
 use App\Form\ContactType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,6 +83,7 @@ class IndexController extends AbstractController
         $contactForm->handleRequest($request);
 
         if ($contactForm->isSubmitted() and $contactForm->isValid()) {
+            $contactEntity->setDateContact(new DateTime("now"));
             $entityManager->persist($contactEntity);
             $entityManager->flush();
         }

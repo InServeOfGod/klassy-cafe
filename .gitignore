@@ -20,4 +20,7 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 /.idea/
-.env
+/.env
+/node_modules/
+/public/node_modules/
+/public/assets/images/

@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
     <!-- ***** Header Area Start ***** -->
     <header class="header-area header-sticky">
         <div class="container">
@@ -8,7 +18,7 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="{{ path('app_index') }}" class="logo">
+                        <a href="{{ path('app_admin_index') }}" class="logo">
                             <img src="{{ asset(header_logo) }}" alt="klassy cafe html template">
                         </a>
                         <!-- ***** Logo End ***** -->
@@ -20,6 +30,7 @@
                             <li class="scroll-to-section"><a href="#chefs">Chefs</a></li>
                             <li class="scroll-to-section"><a href="#reservation">Contact Us</a></li>
                             <li class="scroll-to-section"><a href="#offers">Offers</a></li>
+                            <li><a href="{{ path('app_admin_login') }}">Login</a></li>
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

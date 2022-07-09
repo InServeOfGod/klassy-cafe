@@ -88,6 +88,11 @@ class Contact
      */
     private $msg;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_contact;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -173,6 +178,18 @@ class Contact
     public function setMsg(string $msg): self
     {
         $this->msg = $msg;
+
+        return $this;
+    }
+
+    public function getDateContact(): ?\DateTimeInterface
+    {
+        return $this->date_contact;
+    }
+
+    public function setDateContact(\DateTimeInterface $date_contact): self
+    {
+        $this->date_contact = $date_contact;
 
         return $this;
     }
