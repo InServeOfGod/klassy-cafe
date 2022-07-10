@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Phone Number</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+
+    <div class="card-body">
+        <div class="form-group">
+            {{ form_row(form.phone_number, {label: 'Enter Phone Number', attr: {class: 'form-control', placeholder: 'Phone number'}}) }}
+        </div>
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary float-left">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_settings') }}" class="float-right btn btn-secondary">
+            <i class="fas fa-angle-left"></i>
+            Back to Settings Panel
+        </a>
+    </div>
+</div>
+{{ form_end(form) }}

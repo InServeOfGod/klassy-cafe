@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | {{ title }}{% endblock %}
+
+{% block admin_body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    {{ include('phone_numbers/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

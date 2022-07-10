@@ -4,8 +4,6 @@
         <meta charset="UTF-8">
         <meta name="description" content="cafe, restaurant">
         <meta name="author" content="inserveofgod">
-        <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         <title>Klassy Cafe{% block title %}{% endblock %}</title>
 
@@ -15,11 +13,11 @@
         {% set admin_login = false %}
         {% set route = app.request.attributes.get('_route') %}
 
-        {% if "admin" in route %}
-            {% if "app_admin_login" == route %}
+        {% if "app_index" != route %}
+            {% set admin = true %}
+        {% else %}
+            {% if "app_login" == route %}
                 {% set admin_login = true %}
-            {% else %}
-                {% set admin = true %}
             {% endif %}
         {% endif %}
 
@@ -29,21 +27,21 @@
             <!-- Font Awesome -->
             <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
             <!-- Ionicons -->
-            <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+{#            <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">#}
             <!-- Tempusdominus Bootstrap 4 -->
             <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
             <!-- iCheck -->
-            <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+{#            <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">#}
             <!-- JQVMap -->
-            <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
+{#            <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">#}
             <!-- Theme style -->
             <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
             <!-- overlayScrollbars -->
             <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
             <!-- Daterange picker -->
-            <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+{#            <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">#}
             <!-- summernote -->
-            <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+{#            <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">#}
         {% elseif admin_login %}
             <!-- Google Font: Source Sans Pro -->
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -54,6 +52,8 @@
             <!-- Theme style -->
             <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
         {% else %}
+            <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.min.css") }}">
             <link rel="stylesheet" href="{{ asset("assets/css/font-awesome.css") }}">
             <link rel="stylesheet" href="{{ asset("assets/css/custom.css") }}">
@@ -73,6 +73,212 @@
     </head>
     <body class="{% if admin %}hold-transition sidebar-mini layout-fixed{% endif %}{% if admin_login %}hold-transition login-page{% endif %}">
         {% block body %}{% endblock %}
+        {% if admin %}
+            <div class="wrapper">
+                <!-- Preloader -->
+                <div class="preloader flex-column justify-content-center align-items-center bg-white" style="opacity: .8">
+                    <img class="animation__shake" src="{{ asset('assets/images/klassy-logo.png') }}" alt="preloader">
+                </div>
+
+                <!-- Navbar -->
+                <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                    <!-- Left navbar links -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="{{ path('app_index') }}" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="#reservations" class="nav-link">Reservation</a>
+                        </li>
+                    </ul>
+
+                    <!-- Right navbar links -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Messages Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" data-toggle="dropdown" href="#">
+                                <i class="far fa-calendar"></i>
+                                <span class="badge badge-danger navbar-badge">{{ contacts|length }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                {% for contact in contacts[0:5] %}
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item">
+                                        <!-- Message Start -->
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <h3 class="dropdown-item-title">
+                                                    {{ contact.name }}
+                                                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                                </h3>
+                                                <p class="text-sm">{{ contact.msg }}</p>
+                                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> {{ contact.dateContact|date }}</p>
+                                            </div>
+                                        </div>
+                                        <!-- Message End -->
+                                    </a>
+                                {% endfor %}
+                                <div class="dropdown-divider"></div>
+                                <a href="#reservations" class="dropdown-item dropdown-footer">See All Reservations</a>
+                            </div>
+                        </li>
+                        <!-- Notifications Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" data-toggle="dropdown" href="#">
+                                <i class="far fa-bell"></i>
+                                <span class="badge badge-warning navbar-badge">{{ notifications|length }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <span class="dropdown-item dropdown-header">{{ notifications|length }} Notifications</span>
+                                {% for notification in notifications[0:5] %}
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-bell mr-2"></i> {{ notification.action }}
+                                        <span class="float-right text-muted text-sm">{{ notification.dateAction|date }}</span>
+                                    </a>
+                                {% endfor %}
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.navbar -->
+
+                <!-- Main Sidebar Container -->
+                <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                    <!-- Sidebar -->
+                    <div class="sidebar">
+                        <!-- Sidebar user panel (optional) -->
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="image">
+                                <img src="{{ asset('assets/images/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                            </div>
+                            <div class="info">
+                                <a href="{{ path('app_settings') }}" class="d-block">{{ app.user.username }}</a>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Menu -->
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <!-- Add icons to the links using the .nav-icon class
+                                     with font-awesome or any other icon font library -->
+
+                                {% set dashboard_open = false %}
+                                {% set settings_open = false %}
+
+                                {% set dashboard_active = false %}{# offers_menus + profits + customers + coffer + reservations + notifications #}
+                                {% set settings_active = false %}{# user + emails + phone_numbers + guests #}
+                                {# todo : add guests to settings #}
+
+                                {% set pages_open = false %}
+                                {% set pages_about_active = false %}{# about + about_photos #}
+                                {% set pages_chefs_active = false %}{# chefs + chefs_slider #}
+                                {% set pages_contact_us_active = false %}{# contact_us #}
+                                {% set pages_products_active = false %}{# day_times + offers + offers_menus #}
+                                {% set pages_header_active = false %}{# header_images + header_slider #}
+                                {# todo : do something for menu_slider #}
+
+                                {% set coffer_open = false %}
+                                {% set coffer_active = false %}
+                                {% set coffer_customers_active = false %}
+                                {% set coffer_profits_active = false %}
+
+                                {% set alerts_open = false %}
+                                {% set alerts_reservation_active = false %}
+                                {% set alerts_notifications_active = false %}
+
+                                {% set route = app.request.attributes.get("_route") %}
+
+                                {% if route == "app_dashboard" %}
+                                    {% set dashboard_open = true %}
+                                    {% set dashboard_active = true %}
+                                {% elseif route == "app_settings"  %}
+                                    {% set settings_open = true %}
+                                    {% set settings_active = true %}
+                                {% endif %}
+
+                                <li class="nav-item {% if dashboard_open %}menu-open{% endif %}">
+                                    <a href="#" class="nav-link {% if dashboard_active %}active{% endif %}">
+                                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                                        <p>
+                                            Dashboard
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ path('app_dashboard') }}" class="nav-link {% if dashboard_active %}active{% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Dashboard</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item {% if settings_open %}menu-open{% endif %}">
+                                    <a href="#" class="nav-link {% if settings_active %}active{% endif %}">
+                                        <i class="nav-icon fas fa-tools"></i>
+                                        <p>
+                                            Settings
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ path('app_settings') }}" class="nav-link {% if settings_active %}active{% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Profile & Site Settings</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('app_logout') }}" class="nav-link">
+                                        <i class="nav-icon fa fa-door-open text-danger"></i>
+                                        <p>Logout</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- /.sidebar-menu -->
+                    </div>
+                    <!-- /.sidebar -->
+                </aside>
+
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+                    <!-- Content Header (Page header) -->
+                    <div class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <h1 class="m-0">{{ title }}</h1>
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-sm-right">
+                                        <li class="breadcrumb-item"><a href="{{ path('app_index') }}">Home</a></li>
+                                        <li class="breadcrumb-item active">{{ title }}</li>
+                                    </ol>
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+                        </div><!-- /.container-fluid -->
+                    </div>
+                    <!-- /.content-header -->
+                    {% block admin_body %}{% endblock %}
+                </div>
+                <!-- /.content-wrapper -->
+            </div>
+            <!-- ./wrapper -->
+        {% endif %}
 
         {% if admin %}
             <!-- jQuery -->
@@ -86,29 +292,29 @@
             <!-- Bootstrap 4 -->
             <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
             <!-- ChartJS -->
-            <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+{#            <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>#}
             <!-- Sparkline -->
-            <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
+{#            <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>#}
             <!-- JQVMap -->
-            <script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-            <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+{#            <script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>#}
+{#            <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>#}
             <!-- jQuery Knob Chart -->
-            <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+{#            <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>#}
             <!-- daterangepicker -->
-            <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-            <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+{#            <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>#}
+{#            <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>#}
             <!-- Tempusdominus Bootstrap 4 -->
-            <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+{#            <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>#}
             <!-- Summernote -->
-            <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+{#            <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>#}
             <!-- overlayScrollbars -->
             <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
             <!-- AdminLTE App -->
             <script src="{{ asset('dist/js/adminlte.js') }}"></script>
             <!-- AdminLTE for demo purposes -->
-            <script src="{{ asset('dist/js/demo.js') }}"></script>
+{#            <script src="{{ asset('dist/js/demo.js') }}"></script>#}
             <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-            <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+{#            <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>#}
         {% elseif admin_login %}
             <!-- jQuery -->
             <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -117,6 +323,12 @@
             <!-- AdminLTE App -->
             <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
         {% endif %}
+
+        <script type="text/javascript">
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
     </body>
 </html>
 

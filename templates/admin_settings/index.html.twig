@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | {{ title }}{% endblock %}
+
+{% block admin_body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="card card-widget widget-user">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header text-white" style="background: url({{ asset('assets/images/photo1.png') }}) center center;">
+                            <h3 class="widget-user-username text-right">{{ app.user.username }}</h3>
+                            <h5 class="widget-user-desc text-right">Administrator</h5>
+                        </div>
+                        <div class="widget-user-image">
+                            <img class="img-circle" src="{{ asset('assets/images/user2-160x160.jpg') }}" alt="User Avatar">
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header">{{ profits|length }}</h5>
+                                        <span class="description-text">SALES</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header">{{ customers|length }}</h5>
+                                        <span class="description-text">CUSTOMERS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4">
+                                    <div class="description-block">
+                                        <h5 class="description-header">{{ product_count }}</h5>
+                                        <span class="description-text">PRODUCTS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+
+                {# user table #}
+
+                <div class="col-lg-4 col-6 mt-3">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">User</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+{#                                    <th>Actions</th>#}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>{{ app.user.username }}</td>
+                                        <td>*****</td>
+                                        {#<td>
+                                            <a href="{{ path('app_user_edit', {'id': app.user.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>#}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {# emails table #}
+
+                <div class="col-lg-4 col-6 mt-3">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Emails</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Email Address</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% set i = 0 %}
+                                {% for email in emails %}
+                                    <tr>
+                                        <td>{{ i }}</td>
+                                        <td>{{ email.email }}</td>
+                                        <td>
+                                            <a href="{{ path('app_emails_edit', {'id': email.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            {{ include('emails/_delete_form.html.twig') }}
+                                        </td>
+                                        {% set i = i + 1 %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ path('app_emails_new') }}" class="btn btn-sm btn-outline-success">
+                                <i class="fa fa-plus"></i>
+                                Add New Email Address
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {# phone numbers table #}
+
+                <div class="col-lg-4 col-6 mt-3">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Phone numbers</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Phone Number</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% set i = 0 %}
+                                {% for phone_number in phones %}
+                                    <tr>
+                                        <td>{{ i }}</td>
+                                        <td>{{ phone_number.phoneNumber }}</td>
+                                        <td>
+                                            <a href="{{ path('app_phone_numbers_edit', {'id': phone_number.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            {{ include('phone_numbers/_delete_form.html.twig') }}
+                                        </td>
+                                        {% set i = i + 1 %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ path('app_phone_numbers_new') }}" class="btn btn-sm btn-outline-success">
+                                <i class="fa fa-plus"></i>
+                                Add New Phone Number
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {# guests count #}
+
+                <div class="col-lg-4 col-6 mt-3">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Maximum number of guests</h3>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                                <div class="form-group">
+                                    {{ form_row(form.guest_count, {label: 'Enter Number Of Guests', attr: {
+                                        'class': 'form-control',
+                                        'placeholder': 'Number of guests'
+                                    }}) }}
+                                </div>
+                                <div class="text-right">
+                                    <button class="btn btn-sm btn-outline-success" type="submit">Save</button>
+                                </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
