@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OffersMenus{% endblock %}
+
+{% block body %}
+    <h1>OffersMenus</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ offers_menu.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ offers_menu.title }}</td>
+            </tr>
+            <tr>
+                <th>Subtitle</th>
+                <td>{{ offers_menu.subtitle }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ offers_menu.price }}</td>
+            </tr>
+            <tr>
+                <th>Cost</th>
+                <td>{{ offers_menu.cost }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ offers_menu.photo }}</td>
+            </tr>
+            <tr>
+                <th>Count</th>
+                <td>{{ offers_menu.count }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_offers_menus_index') }}">back to list</a>
+
+    <a href="{{ path('app_offers_menus_edit', {'id': offers_menu.id}) }}">edit</a>
+
+    {{ include('offers_menus/_delete_form.html.twig') }}
+{% endblock %}

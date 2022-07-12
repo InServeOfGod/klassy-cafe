@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+// todo : resolve problem about user password and non-creatable table rows
+
 use App\Entity\About;
 use App\Entity\AboutPhotos;
 use App\Entity\Chefs;

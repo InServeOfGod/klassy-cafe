@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('app_about_photos_delete', {'id': about_photo.id}) }}" class="d-inline" data-toggle="tooltip" data-placement="top" title="Delete">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ about_photo.id) }}">
+    <button type="submit" class="text-danger border-0 bg-transparent">
+        <i class="fa fa-trash"></i>
+    </button>
+</form>

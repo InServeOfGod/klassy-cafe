@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New OffersMenus{% endblock %}
+
+{% block body %}
+    <h1>Create new OffersMenus</h1>
+
+    {{ include('offers_menus/_form.html.twig') }}
+
+    <a href="{{ path('app_offers_menus_index') }}">back to list</a>
+{% endblock %}

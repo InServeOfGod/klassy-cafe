@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | {{ title }}{% endblock %}
+
+{% block admin_body %}
+    <section class="container">
+        {{ include('customers/_form.html.twig', {button_label : 'Update'}) }}
+    </section>
+{% endblock %}
+

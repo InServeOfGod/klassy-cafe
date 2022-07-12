@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DayTimes{% endblock %}
+
+{% block body %}
+    <h1>DayTimes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ day_time.id }}</td>
+            </tr>
+            <tr>
+                <th>Day_time</th>
+                <td>{{ day_time.dayTime }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ day_time.photo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_day_times_index') }}">back to list</a>
+
+    <a href="{{ path('app_day_times_edit', {'id': day_time.id}) }}">edit</a>
+
+    {{ include('day_times/_delete_form.html.twig') }}
+{% endblock %}

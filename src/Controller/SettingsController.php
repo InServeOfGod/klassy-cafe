@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Form\GuestsCountType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class SettingsController extends AbstractController
      */
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $product_count = $guest_count = 0;
+        $product_count = 0;
 
         $offersMenusRepo = $entityManager->getRepository(OffersMenus::class);
         $profitRepo = $entityManager->getRepository(Profits::class);
@@ -44,7 +45,8 @@ class SettingsController extends AbstractController
         $customers = $customerRepo->findAllWithMenus();
         $emails = $emailsRepo->findAll();
         $phones = $phoneRepo->findAll();
-        $guest_count = $guestsRepo->findOneBy([], ['id' => 'desc'])->getGuest();
+        $guests = $guestsRepo->findBy([], ['guest' => 'asc']);
+        $guest_count = count($guests);
 
         // setup guests count form field
 
@@ -56,7 +58,24 @@ class SettingsController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $guest_count = (int)$form->getData()['guest_count'];
 
+            for ($i = 1; $i <= $guest_count; $i++) {
+                try {
+                    $guestsRepo->remove($guests[$i-1], true);
+                } catch (ForeignKeyConstraintViolationException $violationException) {
+                    $this->addFlash("info", "You can not decrease the count of guests due to reservations made!");
+                    dump($violationException);
+                    break;
+                }
+
+                $guestEntity = new Guests();
+                $guestEntity->setGuest($i);
+                $entityManager->persist($guestEntity);
+                $entityManager->flush();
+            }
+
+            return $this->redirectToRoute("app_settings");
         }
 
         // get product count
@@ -80,9 +99,9 @@ class SettingsController extends AbstractController
     }
 
     /**
-//     * @Route("/user/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
+     * @Route("/user/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
      */
-    /*public function editUser(Request $request, User $user, UserRepository $userRepository): Response
+    public function editUser(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -102,8 +121,8 @@ class SettingsController extends AbstractController
             'user' => $user,
             'form' => $form,
             'title' => 'Edit User',
-            'contacts' => $this->contacts,
-            'notifications' => $this->notifications,
+            'contacts' => contacts($entityManager),
+            'notifications' => notify($entityManager),
         ]);
-    }*/
+    }
 }

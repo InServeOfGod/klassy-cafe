@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HeaderSlider{% endblock %}
+
+{% block body %}
+    <h1>HeaderSlider</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ header_slider.id }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ header_slider.photo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_header_slider_index') }}">back to list</a>
+
+    <a href="{{ path('app_header_slider_edit', {'id': header_slider.id}) }}">edit</a>
+
+    {{ include('header_slider/_delete_form.html.twig') }}
+{% endblock %}

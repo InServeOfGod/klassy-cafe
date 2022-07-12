@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HeaderSlider index{% endblock %}
+
+{% block body %}
+    <h1>HeaderSlider index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Photo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for header_slider in header_sliders %}
+            <tr>
+                <td>{{ header_slider.id }}</td>
+                <td>{{ header_slider.photo }}</td>
+                <td>
+                    <a href="{{ path('app_header_slider_show', {'id': header_slider.id}) }}">show</a>
+                    <a href="{{ path('app_header_slider_edit', {'id': header_slider.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_header_slider_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} | {{ title }}{% endblock %}
+
+{% block admin_body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                {{ form_start(form) }}
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Case</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ form_row(form.money, {label: 'Enter Amount of Money', attr: {class: 'form-control', placeholder: 'Amount of money'}}) }}
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-success float-left">{{ button_label|default('Save') }}</button>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
