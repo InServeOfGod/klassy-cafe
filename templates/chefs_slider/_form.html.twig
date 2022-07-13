@@ -1,4 +1,58 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{{ title }}</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+
+    <div class="card-body">
+        <div class="form-group">
+            {{ form_row(form.title, {label: 'Enter Title', attr: {class: 'form-control', placeholder: 'Title'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.subtitle, {label: 'Enter Subtitle', attr: {class: 'form-control', placeholder: 'Subtitle'}}) }}
+        </div>
+
+        <div class="form-group">
+            <div class="custom-file">
+                {{ form_widget(form.photo, {attr: {class: 'custom-file-input', id: 'customFile'}}) }}
+                <small class="text-muted">
+                    {{ form_help(form.photo) }}
+                </small>
+
+                <small class="text-danger">
+                    {{ form_errors(form.photo) }}
+                </small>
+                <label class="custom-file-label" for="customFile">{{ chefs_slider.photo ?? null }}</label>
+            </div>
+        </div>
+
+        {% if chefs_slider.photo is not null %}
+            <img src="{{ asset(chefs_slider.photo) }}" alt="{{ chefs_slider.photo }}" width="64" height="64" class="img-rounded">
+        {% endif %}
+
+        <div class="form-group">
+            {{ form_row(form.facebook, {label: 'Enter Facebook URL', attr: {class: 'form-control', placeholder: 'https://www.facebook.com/profile'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.twitter, {label: 'Enter Twitter URL', attr: {class: 'form-control', placeholder: 'https://www.twitter.com/profile'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.instagram, {label: 'Enter Instagram URL', attr: {class: 'form-control', placeholder: 'https://www.instagram.com/profile'}}) }}
+        </div>
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary float-left">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_chefs_slider_index') }}" class="float-right btn btn-secondary">
+            <i class="fas fa-angle-left"></i>
+            Back to List
+        </a>
+    </div>
+</div>
 {{ form_end(form) }}

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\About;
 use App\Entity\AboutPhotos;
+use App\Form\AboutType;
 use App\Form\PhotosType;
 use App\Repository\AboutPhotosRepository;
 use App\Repository\AboutRepository;
@@ -47,14 +49,22 @@ class AboutPhotosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $file */
             $file = $form->get('photo')->getData();
+            $images_dir = $this->getParameter("images_dir");
 
             if ($file) {
-                if (!upload($fileUploader->upload($file), $this->getParameter("images_dir"), $aboutPhoto, $aboutPhotosRepository)) {
-                    $this->addFlash("danger", "File uploading failed");
+                $filename = $fileUploader->upload($file);
+
+                // if uploading is a success then set new filename of photo
+                if ($filename !== null) {
+                    $filename = $images_dir . $filename;
+                    $aboutPhoto->setPhoto($filename);
                 } else {
-                    return $this->redirectToRoute('app_about_photos_index', [], Response::HTTP_SEE_OTHER);
+                    $this->addFlash("danger", "File uploading failed");
                 }
             }
+
+            $aboutPhotosRepository->add($aboutPhoto, true);
+            return $this->redirectToRoute('app_about_photos_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('about_photos/new.html.twig', [
@@ -90,14 +100,22 @@ class AboutPhotosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $file */
             $file = $form->get('photo')->getData();
+            $images_dir = $this->getParameter("images_dir");
 
             if ($file) {
-                if (!upload($fileUploader->upload($file), $this->getParameter("images_dir"), $aboutPhoto, $aboutPhotosRepository)) {
-                    $this->addFlash("danger", "File uploading failed");
+                $filename = $fileUploader->upload($file);
+
+                // if uploading is a success then set new filename of photo
+                if ($filename !== null) {
+                    $filename = $images_dir . $filename;
+                    $aboutPhoto->setPhoto($filename);
                 } else {
-                    return $this->redirectToRoute('app_about_photos_index', [], Response::HTTP_SEE_OTHER);
+                    $this->addFlash("danger", "File uploading failed");
                 }
             }
+
+            $aboutPhotosRepository->add($aboutPhoto, true);
+            return $this->redirectToRoute('app_about_photos_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('about_photos/edit.html.twig', [
@@ -112,9 +130,39 @@ class AboutPhotosController extends AbstractController
     /**
      * @Route("/about/{id}/edit", name="app_about_edit", methods={"GET", "POST"})
      */
-    public function aboutEdit(Request $request): Response
+    public function aboutEdit(Request $request, About $about, AboutRepository $aboutRepository, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
-        return new Response("");
+        $form = $this->createForm(AboutType::class, $about);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $form->get('video_bg')->getData();
+            $images_dir = $this->getParameter("images_dir");
+
+            if ($file) {
+                $filename = $fileUploader->upload($file);
+
+                // if uploading is a success then set new filename of photo
+                if ($filename !== null) {
+                    $filename = $images_dir . $filename;
+                    $about->setVideoBg($filename);
+                } else {
+                    $this->addFlash("danger", "File uploading failed");
+                }
+            }
+
+            $aboutRepository->add($about, true);
+            return $this->redirectToRoute('app_about_photos_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('about_photos/edit_about.html.twig', [
+            'about' => $about,
+            'form' => $form,
+            'contacts' => contacts($entityManager),
+            'notifications' => notify($entityManager),
+            'title' => 'About & About Photos'
+        ]);
     }
 
     /**

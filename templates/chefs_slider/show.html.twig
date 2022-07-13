@@ -1,46 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ChefsSlider{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>ChefsSlider</h1>
+{% block admin_body %}
+<div class="container">
+    <div class="card card-primary mt-3">
+        <div class="card-header">
+            <h3 class="card-title">{{ title }}</h3>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ chefs_slider.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Title</th>
+                        <td>{{ chefs_slider.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Subtitle</th>
+                        <td>{{ chefs_slider.subtitle }}</td>
+                    </tr>
+                    <tr>
+                        <th>Photo</th>
+                        <td>
+                            {% if chefs_slider.photo is not null %}
+                                <a href="{{ asset(chefs_slider.photo) }}" target="_blank">
+                                    <img src="{{ asset(chefs_slider.photo) }}" alt="{{ chefs_slider.photo }}" width="64" height="64" class="img-rounded">
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Facebook</th>
+                        <td>
+                            <a href="{{ chefs_slider.facebook }}" target="_blank" class="link-muted">{{ chefs_slider.facebook }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Twitter</th>
+                        <td>
+                            <a href="{{ chefs_slider.twitter }}" target="_blank" class="link-muted">{{ chefs_slider.twitter }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Instagram</th>
+                        <td>
+                            <a href="{{ chefs_slider.instagram }}" target="_blank" class="link-muted">{{ chefs_slider.instagram }}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a href="{{ path('app_chefs_slider_index') }}" class="float-left btn btn-secondary">
+                <i class="fas fa-angle-left"></i>
+                Back to List
+            </a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ chefs_slider.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ chefs_slider.title }}</td>
-            </tr>
-            <tr>
-                <th>Subtitle</th>
-                <td>{{ chefs_slider.subtitle }}</td>
-            </tr>
-            <tr>
-                <th>Photo</th>
-                <td>{{ chefs_slider.photo }}</td>
-            </tr>
-            <tr>
-                <th>Facebook</th>
-                <td>{{ chefs_slider.facebook }}</td>
-            </tr>
-            <tr>
-                <th>Twitter</th>
-                <td>{{ chefs_slider.twitter }}</td>
-            </tr>
-            <tr>
-                <th>Instagram</th>
-                <td>{{ chefs_slider.instagram }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_chefs_slider_index') }}">back to list</a>
-
-    <a href="{{ path('app_chefs_slider_edit', {'id': chefs_slider.id}) }}">edit</a>
-
-    {{ include('chefs_slider/_delete_form.html.twig') }}
+            <div class="float-right">
+                <a href="{{ path('app_chefs_slider_edit', {'id': chefs_slider.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                    <i class="fa fa-edit"></i>
+                </a>
+                {{ include('chefs_slider/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

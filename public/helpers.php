@@ -22,22 +22,3 @@ function contacts(EntityManagerInterface $entityManager): array
 {
     return $entityManager->getRepository(Contact::class)->findAll();
 }
-
-/**
- * @param string|null $filename
- * @param string $images_dir
- * @param object $entity
- * @param ObjectRepository $repository
- * @return bool
- */
-function upload(?string $filename, string $images_dir, object $entity, ObjectRepository $repository): bool
-{
-    if ($filename !== null) {
-        $filename = $images_dir . $filename;
-        $entity->setPhoto($filename);
-        $repository->add($entity, true);
-        return true;
-    }
-
-    return false;
-}

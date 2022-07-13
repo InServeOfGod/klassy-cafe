@@ -1,45 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ChefsSlider index{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>ChefsSlider index</h1>
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/semantic.min.css') }}">
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Subtitle</th>
-                <th>Photo</th>
-                <th>Facebook</th>
-                <th>Twitter</th>
-                <th>Instagram</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for chefs_slider in chefs_sliders %}
-            <tr>
-                <td>{{ chefs_slider.id }}</td>
-                <td>{{ chefs_slider.title }}</td>
-                <td>{{ chefs_slider.subtitle }}</td>
-                <td>{{ chefs_slider.photo }}</td>
-                <td>{{ chefs_slider.facebook }}</td>
-                <td>{{ chefs_slider.twitter }}</td>
-                <td>{{ chefs_slider.instagram }}</td>
-                <td>
-                    <a href="{{ path('app_chefs_slider_show', {'id': chefs_slider.id}) }}">show</a>
-                    <a href="{{ path('app_chefs_slider_edit', {'id': chefs_slider.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block admin_body %}
+    <div class="container-fluid">
+        <div class="card mb-5">
+            <div class="card-header border-0">
+                <h3 class="card-title">Chefs</h3>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for chef in chefs %}
+                        <tr>
+                            <td>{{ chef.id }}</td>
+                            <td>
+                                {{ chef.title }}
+                            </td>
+                            <td>
+                                <a href="{{ path('app_chefs_edit', {'id': chef.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <a href="{{ path('app_chefs_slider_new') }}">Create new</a>
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-hover display ui celled w-100" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Subtitle</th>
+                            <th>Photo</th>
+                            <th>Facebook</th>
+                            <th>Twitter</th>
+                            <th>Instagram</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for chefs_slider in chefs_sliders %}
+                        <tr>
+                            <td>{{ chefs_slider.id }}</td>
+                            <td>{{ chefs_slider.title }}</td>
+                            <td>{{ chefs_slider.subtitle }}</td>
+                            <td>
+                                {% if chefs_slider.photo is not null %}
+                                    <a href="{{ asset(chefs_slider.photo) }}" target="_blank">
+                                        <img src="{{ asset(chefs_slider.photo) }}" alt="{{ chefs_slider.photo }}" width="64" height="64" class="img-rounded">
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ chefs_slider.facebook }}" target="_blank" class="link-muted">{{ chefs_slider.facebook }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ chefs_slider.twitter }}" target="_blank" class="link-muted">{{ chefs_slider.twitter }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ chefs_slider.instagram }}" target="_blank" class="link-muted">{{ chefs_slider.instagram }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('app_chefs_slider_show', {'id': chefs_slider.id}) }}" class="text-primary" data-toggle="tooltip" data-placement="top" title="show">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="{{ path('app_chefs_slider_edit', {'id': chefs_slider.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                {{ include("chefs_slider/_delete_form.html.twig") }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <a href="{{ path('app_chefs_slider_new') }}" class="btn btn-sm btn-outline-primary">
+                    <i class="fa fa-plus"></i>
+                    Add New Chef Slider
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.semanticui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/semantic.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                responsive: true
+            });
+        });
+    </script>
 {% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 // todo : resolve problem about user password and non-creatable table rows
+// todo : do not trust any user input
+// todo : delete uploaded photo from disk if it was removed from database
 
 use App\Entity\About;
 use App\Entity\AboutPhotos;
