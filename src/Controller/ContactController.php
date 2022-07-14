@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class ContactController extends AbstractController
 {
     /**
-     * @Route("/", name="app_contact_index", methods={"GET"})
+     * @Route("/", name="app_reservation_index", methods={"GET"})
      */
     public function index(ContactRepository $contactRepository, EntityManagerInterface $entityManager): Response
     {
@@ -42,7 +42,7 @@ class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contactRepository->add($contact, true);
 
-            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contact/new.html.twig', [
@@ -55,7 +55,7 @@ class ContactController extends AbstractController
     }*/
 
     /**
-     * @Route("/{id}", name="app_contact_show", methods={"GET"})
+     * @Route("/{id}", name="app_reservation_show", methods={"GET"})
      */
     public function show(Contact $contact, EntityManagerInterface $entityManager): Response
     {
@@ -68,7 +68,7 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_contact_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="app_reservation_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Contact $contact, ContactRepository $contactRepository, EntityManagerInterface $entityManager): Response
     {
@@ -78,7 +78,7 @@ class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contactRepository->add($contact, true);
 
-            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contact/edit.html.twig', [
@@ -91,7 +91,7 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_contact_delete", methods={"POST"})
+     * @Route("/{id}", name="app_reservation_delete", methods={"POST"})
      */
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
@@ -99,6 +99,6 @@ class ContactController extends AbstractController
             $contactRepository->remove($contact, true);
         }
 
-        return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
     }
 }

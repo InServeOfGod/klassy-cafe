@@ -15,6 +15,7 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Menu</th>
                             <th>Name</th>
                             <th>Datetime Arrive</th>
                             <th>Is Canceled</th>
@@ -25,6 +26,7 @@
                     {% for customer in customers %}
                         <tr>
                             <td>{{ customer.id }}</td>
+                            <td>{{ customer.offerMenu.title }}</td>
                             <td>{{ customer.name }}</td>
                             <td>{{ customer.dateArrived ? customer.dateArrived|date('Y-m-d H:i:s') : '' }}</td>
                             <td>{{ customer.isCanceled ? 'Yes' : 'No' }}</td>

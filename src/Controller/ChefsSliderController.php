@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Chefs;
 use App\Entity\ChefsSlider;
 use App\Form\ChefsSliderType;
-use App\Form\ChefsType;
-use App\Repository\ChefsRepository;
 use App\Repository\ChefsSliderRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,14 +23,13 @@ class ChefsSliderController extends AbstractController
     /**
      * @Route("/", name="app_chefs_slider_index", methods={"GET"})
      */
-    public function index(ChefsRepository $chefsRepository, ChefsSliderRepository $chefsSliderRepository, EntityManagerInterface $entityManager): Response
+    public function index(ChefsSliderRepository $chefsSliderRepository, EntityManagerInterface $entityManager): Response
     {
         return $this->render('chefs_slider/index.html.twig', [
-            'chefs' => $chefsRepository->findAll(),
             'chefs_sliders' => $chefsSliderRepository->findAll(),
             'contacts' => contacts($entityManager),
             'notifications' => notify($entityManager),
-            'title' => 'Chefs & Chefs Slider'
+            'title' => 'Chefs Slider'
         ]);
     }
 
@@ -72,7 +68,7 @@ class ChefsSliderController extends AbstractController
             'form' => $form,
             'contacts' => contacts($entityManager),
             'notifications' => notify($entityManager),
-            'title' => 'Chefs & Chefs Slider'
+            'title' => 'Chefs Slider'
         ]);
     }
 
@@ -85,7 +81,7 @@ class ChefsSliderController extends AbstractController
             'chefs_slider' => $chefsSlider,
             'contacts' => contacts($entityManager),
             'notifications' => notify($entityManager),
-            'title' => 'Chefs & Chefs Slider'
+            'title' => 'Chefs Slider'
         ]);
     }
 
@@ -123,29 +119,7 @@ class ChefsSliderController extends AbstractController
             'form' => $form,
             'contacts' => contacts($entityManager),
             'notifications' => notify($entityManager),
-            'title' => 'Chefs & Chefs Slider'
-        ]);
-    }
-
-    /**
-     * @Route("chefs/{id}/edit", name="app_chefs_edit", methods={"GET", "POST"})
-     */
-    public function chefsEdit(Request $request, Chefs $chefs, ChefsRepository $chefsRepository, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ChefsType::class, $chefs);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $chefsRepository->add($chefs, true);
-            return $this->redirectToRoute('app_chefs_slider_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('chefs_slider/chef_edit.html.twig', [
-            'chefs' => $chefs,
-            'form' => $form,
-            'contacts' => contacts($entityManager),
-            'notifications' => notify($entityManager),
-            'title' => 'Chefs & Chefs Slider'
+            'title' => 'Chefs Slider'
         ]);
     }
 
@@ -156,6 +130,7 @@ class ChefsSliderController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$chefsSlider->getId(), $request->request->get('_token'))) {
             $chefsSliderRepository->remove($chefsSlider, true);
+            unlink($this->getParameter('public_dir').$chefsSlider->getPhoto());
         }
 
         return $this->redirectToRoute('app_chefs_slider_index', [], Response::HTTP_SEE_OTHER);

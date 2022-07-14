@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\About;
 use App\Entity\AboutPhotos;
-use App\Form\AboutType;
 use App\Form\PhotosType;
 use App\Repository\AboutPhotosRepository;
-use App\Repository\AboutRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,10 +23,9 @@ class AboutPhotosController extends AbstractController
     /**
      * @Route("/", name="app_about_photos_index", methods={"GET"})
      */
-    public function index(AboutRepository $aboutRepository, AboutPhotosRepository $aboutPhotosRepository, EntityManagerInterface $entityManager): Response
+    public function index(AboutPhotosRepository $aboutPhotosRepository, EntityManagerInterface $entityManager): Response
     {
         return $this->render('about_photos/index.html.twig', [
-            'about' => $aboutRepository->findOneBy([]),
             'about_photos' => $aboutPhotosRepository->findAll(),
             'contacts' => contacts($entityManager),
             'notifications' => notify($entityManager),
@@ -128,50 +124,13 @@ class AboutPhotosController extends AbstractController
     }
 
     /**
-     * @Route("/about/{id}/edit", name="app_about_edit", methods={"GET", "POST"})
-     */
-    public function aboutEdit(Request $request, About $about, AboutRepository $aboutRepository, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
-    {
-        $form = $this->createForm(AboutType::class, $about);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $file */
-            $file = $form->get('video_bg')->getData();
-            $images_dir = $this->getParameter("images_dir");
-
-            if ($file) {
-                $filename = $fileUploader->upload($file);
-
-                // if uploading is a success then set new filename of photo
-                if ($filename !== null) {
-                    $filename = $images_dir . $filename;
-                    $about->setVideoBg($filename);
-                } else {
-                    $this->addFlash("danger", "File uploading failed");
-                }
-            }
-
-            $aboutRepository->add($about, true);
-            return $this->redirectToRoute('app_about_photos_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('about_photos/edit_about.html.twig', [
-            'about' => $about,
-            'form' => $form,
-            'contacts' => contacts($entityManager),
-            'notifications' => notify($entityManager),
-            'title' => 'About & About Photos'
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="app_about_photos_delete", methods={"POST"})
      */
     public function delete(Request $request, AboutPhotos $aboutPhoto, AboutPhotosRepository $aboutPhotosRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$aboutPhoto->getId(), $request->request->get('_token'))) {
             $aboutPhotosRepository->remove($aboutPhoto, true);
+            unlink($this->getParameter('public_dir').$aboutPhoto->getPhoto());
         }
 
         return $this->redirectToRoute('app_about_photos_index', [], Response::HTTP_SEE_OTHER);

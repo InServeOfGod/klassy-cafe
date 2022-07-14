@@ -40,10 +40,18 @@
                     </div>
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                {% if error %}
+                <div class="input-group mb-3">
+                    <small class="text-danger">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </small>
+                </div>
+                {% endif %}
                 <div class="row">
                     <div class="col-8">
                         <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
+                            <input type="checkbox" id="remember" name="_remember_me">
                             <label for="remember">
                                 Remember Me
                             </label>

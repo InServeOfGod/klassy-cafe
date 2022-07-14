@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New DayTimes{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>Create new DayTimes</h1>
+{% block admin_body %}
+    <section class="container">
+        {{ include('day_times/_form.html.twig') }}
+    </section>
+{% endblock %}
 
-    {{ include('day_times/_form.html.twig') }}
-
-    <a href="{{ path('app_day_times_index') }}">back to list</a>
+{% block js %}
+    <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
 {% endblock %}

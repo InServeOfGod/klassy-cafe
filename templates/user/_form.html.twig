@@ -1,0 +1,66 @@
+{{ form_start(form) }}
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Reset Password</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+
+        <div class="card-body">
+            <div class="form-group">
+                {{ form_row(form.username, {label: 'Enter Username', attr: {class: 'form-control', placeholder: 'Username'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.password, {label: 'Enter Password', attr: {class: 'form-control', placeholder: 'Password'}}) }}
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    {{ form_widget(form.photo, {attr: {class: 'custom-file-input', id: 'customFile'}}) }}
+                    <small class="text-muted">
+                        {{ form_help(form.photo) }}
+                    </small>
+
+                    <small class="text-danger">
+                        {{ form_errors(form.photo) }}
+                    </small>
+                    <label class="custom-file-label" for="customFile">{{ user.photo ?? null }}</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                {% if user.photo is not null %}
+                    <img src="{{ asset(user.photo) }}" alt="{{ user.photo }}" width="64" height="64" class="img-rounded">
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <div class="custom-file">
+                    {{ form_widget(form.avatar, {attr: {class: 'custom-file-input', id: 'customFile'}}) }}
+                    <small class="text-muted">
+                        {{ form_help(form.avatar) }}
+                    </small>
+
+                    <small class="text-danger">
+                        {{ form_errors(form.avatar) }}
+                    </small>
+                    <label class="custom-file-label" for="customFile">{{ user.avatar ?? null }}</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                {% if user.avatar is not null %}
+                    <img src="{{ asset(user.avatar) }}" alt="{{ user.avatar }}" width="64" height="64" class="img-rounded">
+                {% endif %}
+            </div>
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary float-left">{{ button_label|default('Save') }}</button>
+            <a href="{{ path('app_settings') }}" class="float-right btn btn-secondary">
+                <i class="fas fa-angle-left"></i>
+                Back to Settings Panel
+            </a>
+        </div>
+    </div>
+{{ form_end(form) }}

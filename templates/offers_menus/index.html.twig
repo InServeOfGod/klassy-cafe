@@ -1,45 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}OffersMenus index{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>OffersMenus index</h1>
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/semantic.min.css') }}">
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Subtitle</th>
-                <th>Price</th>
-                <th>Cost</th>
-                <th>Photo</th>
-                <th>Count</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for offers_menu in offers_menuses %}
-            <tr>
-                <td>{{ offers_menu.id }}</td>
-                <td>{{ offers_menu.title }}</td>
-                <td>{{ offers_menu.subtitle }}</td>
-                <td>{{ offers_menu.price }}</td>
-                <td>{{ offers_menu.cost }}</td>
-                <td>{{ offers_menu.photo }}</td>
-                <td>{{ offers_menu.count }}</td>
-                <td>
-                    <a href="{{ path('app_offers_menus_show', {'id': offers_menu.id}) }}">show</a>
-                    <a href="{{ path('app_offers_menus_edit', {'id': offers_menu.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block admin_body %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover display ui celled w-100" id="datatable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Day Time</th>
+                        <th>Title</th>
+                        <th>Subtitle</th>
+                        <th>Price</th>
+                        <th>Cost</th>
+                        <th>Photo</th>
+                        <th>Count</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for offers_menu in offers_menus %}
+                    <tr>
+                        <td>{{ offers_menu.id }}</td>
+                        <td>{{ offers_menu.dayTime.dayTime }}</td>
+                        <td>{{ offers_menu.title }}</td>
+                        <td>{{ offers_menu.subtitle }}</td>
+                        <td>{{ offers_menu.price }}</td>
+                        <td>{{ offers_menu.cost }}</td>
+                        <td>{{ offers_menu.photo }}</td>
+                        <td>{{ offers_menu.count }}</td>
+                        <td>
+                            <a href="{{ path('app_offers_menus_show', {'id': offers_menu.id}) }}" class="text-primary" data-toggle="tooltip" data-placement="top" title="show">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            <a href="{{ path('app_offers_menus_edit', {'id': offers_menu.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            {{ include("offers_menus/_delete_form.html.twig") }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a href="{{ path('app_offers_menus_new') }}" class="btn btn-sm btn-outline-primary">
+                <i class="fa fa-plus"></i>
+                Add New Menu
+            </a>
+        </div>
+    </div>
+{% endblock %}
 
-    <a href="{{ path('app_offers_menus_new') }}">Create new</a>
+{% block js %}
+    <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.semanticui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/semantic.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                responsive: true
+            });
+        });
+    </script>
 {% endblock %}

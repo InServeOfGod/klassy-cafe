@@ -33,7 +33,7 @@ class DashboardController extends AbstractController
 
         $offers_menus = $offersMenusRepo->findAll();
         $profits = $profitRepo->findAll();
-        $customers = $customerRepo->findAllWithMenus();
+        $customers = $customerRepo->findAll();
         $money = $cofferRepo->findOneBy([])->getMoney();
 
         // get product count

@@ -10,19 +10,19 @@
                     <!-- Widget: user widget style 1 -->
                     <div class="card card-widget widget-user">
                         <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header text-white" style="background: url({{ asset('assets/images/photo1.png') }}) center center;">
+                        <div class="widget-user-header text-white" style="background: url({{ asset(app.user.photo) }}) center center;">
                             <h3 class="widget-user-username text-right">{{ app.user.username }}</h3>
                             <h5 class="widget-user-desc text-right">Administrator</h5>
                         </div>
                         <div class="widget-user-image">
-                            <img class="img-circle" src="{{ asset('assets/images/user2-160x160.jpg') }}" alt="User Avatar">
+                            <img class="img-circle" src="{{ asset(app.user.avatar) }}" alt="User Avatar">
                         </div>
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col-sm-4 border-right">
                                     <div class="description-block">
                                         <h5 class="description-header">{{ profits|length }}</h5>
-                                        <span class="description-text">SALES</span>
+                                        <span class="description-text">PURCHASE & SALE</span>
                                     </div>
                                     <!-- /.description-block -->
                                 </div>
@@ -64,7 +64,7 @@
                                     <th></th>
                                     <th>Username</th>
                                     <th>Password</th>
-{#                                    <th>Actions</th>#}
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -73,9 +73,11 @@
                                         <td>{{ app.user.username }}</td>
                                         <td>*****</td>
                                         <td>
-                                            {# todo : fix here #}
-                                            <a href="{#{{ path('app_user_edit', {'id': app.user.id}) }}#}javascript:void(0);" class="text-secondary disabled" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            {#<a href="{{ path('app_user_edit', {'id': app.user.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="fa fa-edit"></i>
+                                            </a>#}
+                                            <a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="text-primary" data-toggle="tooltip" data-placement="top" title="Show">
+                                                <i class="fa fa-eye"></i>
                                             </a>
                                         </td>
                                     </tr>

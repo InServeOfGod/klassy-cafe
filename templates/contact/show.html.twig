@@ -43,13 +43,13 @@
                 </table>
             </div>
             <div class="card-footer">
-                <a href="{{ path('app_contact_index') }}" class="float-left btn btn-secondary">
+                <a href="{{ path('app_reservation_index') }}" class="float-left btn btn-secondary">
                     <i class="fas fa-angle-left"></i>
                     Back to List
                 </a>
 
                 <div class="float-right">
-                    <a href="{{ path('app_contact_edit', {'id': contact.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                    <a href="{{ path('app_reservation_edit', {'id': contact.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
                         <i class="fa fa-edit"></i>
                     </a>
                     {{ include('contact/_delete_form.html.twig') }}

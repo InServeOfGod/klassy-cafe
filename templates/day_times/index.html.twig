@@ -1,37 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DayTimes index{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>DayTimes index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Day_time</th>
-                <th>Photo</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for day_time in day_times %}
-            <tr>
-                <td>{{ day_time.id }}</td>
-                <td>{{ day_time.dayTime }}</td>
-                <td>{{ day_time.photo }}</td>
-                <td>
-                    <a href="{{ path('app_day_times_show', {'id': day_time.id}) }}">show</a>
-                    <a href="{{ path('app_day_times_edit', {'id': day_time.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_day_times_new') }}">Create new</a>
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/semantic.min.css') }}">
 {% endblock %}
+
+{% block admin_body %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover display ui celled w-100" id="datatable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Day Time</th>
+                        <th>Photo</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for day_time in day_times %}
+                    <tr>
+                        <td>{{ day_time.id }}</td>
+                        <td>{{ day_time.dayTime }}</td>
+                        <td>
+                            {% if day_time.photo is not null %}
+                                <a href="{{ asset(day_time.photo) }}" target="_blank">
+                                    <img src="{{ asset(day_time.photo) }}" alt="{{ day_time.photo }}" width="64" height="64" class="img-rounded">
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_day_times_show', {'id': day_time.id}) }}" class="text-primary" data-toggle="tooltip" data-placement="top" title="show">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            <a href="{{ path('app_day_times_edit', {'id': day_time.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            {{ include("day_times/_delete_form.html.twig") }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a href="{{ path('app_day_times_new') }}" class="btn btn-sm btn-outline-primary">
+                <i class="fa fa-plus"></i>
+                Add New Day Time
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.semanticui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/semantic.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                responsive: true
+            });
+        });
+    </script>
+{% endblock %}
+

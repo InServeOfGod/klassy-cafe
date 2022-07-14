@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
-// todo : resolve problem about user password and non-creatable table rows
+// todo : resolve problem about user password
 // todo : do not trust any user input
-// todo : delete uploaded photo from disk if it was removed from database
+// todo : make good date selection field
+// todo : do something for menu_slider
+// todo : update coffer when any economic action occurs
+// todo : do something about guest updating
+// todo : fix tooltips
 
 use App\Entity\About;
 use App\Entity\AboutPhotos;

@@ -1,4 +1,62 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{{ title }}</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+
+    <div class="card-body">
+        <div class="form-group">
+            {{ form_row(form.day_time, {attr: {class: "form-control"}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.title, {label: "Enter Title", attr: {class: "form-control", placeholder: "Title"}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.subtitle, {label: "Enter subtitle", attr: {class: "form-control", placeholder: "Subtitle"}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.price, {label: "Enter price", attr: {class: "form-control", placeholder: "Price"}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.cost, {label: "Enter cost", attr: {class: "form-control", placeholder: "Cost"}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.count, {label: "Enter count", attr: {class: "form-control", placeholder: "Count"}}) }}
+        </div>
+
+        <div class="form-group">
+            <div class="custom-file">
+                {{ form_widget(form.photo, {attr: {class: 'custom-file-input', id: 'customFile'}}) }}
+                <small class="text-muted">
+                    {{ form_help(form.photo) }}
+                </small>
+
+                <small class="text-danger">
+                    {{ form_errors(form.photo) }}
+                </small>
+                <label class="custom-file-label" for="customFile">{{ offers_menu.photo ?? null }}</label>
+            </div>
+        </div>
+
+        {% if offers_menu.photo is not null %}
+            <img src="{{ asset(offers_menu.photo) }}" alt="{{ offers_menu.photo }}" width="64" height="64" class="img-rounded">
+        {% endif %}
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary float-left">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_offers_menus_index') }}" class="float-right btn btn-secondary">
+            <i class="fas fa-angle-left"></i>
+            Back to List
+        </a>
+    </div>
+</div>
 {{ form_end(form) }}

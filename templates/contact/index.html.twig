@@ -35,10 +35,10 @@
                             <td>{{ contact.msg }}</td>
                             <td>{{ contact.dateContact ? contact.dateContact|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
-                                <a href="{{ path('app_contact_show', {'id': contact.id}) }}" class="text-primary" data-toggle="tooltip" data-placement="top" title="show">
+                                <a href="{{ path('app_reservation_show', {'id': contact.id}) }}" class="text-primary" data-toggle="tooltip" data-placement="top" title="show">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <a href="{{ path('app_contact_edit', {'id': contact.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                                <a href="{{ path('app_reservation_edit', {'id': contact.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
                                     <i class="fa fa-edit"></i>
                                 </a>
                                 {{ include("contact/_delete_form.html.twig") }}

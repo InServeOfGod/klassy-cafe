@@ -94,7 +94,7 @@
                             <a href="{{ path('app_dashboard') }}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item d-none d-sm-inline-block">
-                            <a href="#reservations" class="nav-link">Reservation</a>
+                            <a href="{{ path('app_reservation_index') }}" class="nav-link">Reservation</a>
                         </li>
                     </ul>
 
@@ -109,7 +109,7 @@
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                 {% for contact in contacts[0:5] %}
                                     <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ path('app_reservation_show', {'id': contact.id}) }}" class="dropdown-item">
                                         <!-- Message Start -->
                                         <div class="media">
                                             <div class="media-body">
@@ -125,7 +125,7 @@
                                     </a>
                                 {% endfor %}
                                 <div class="dropdown-divider"></div>
-                                <a href="#reservations" class="dropdown-item dropdown-footer">See All Reservations</a>
+                                <a href="{{ path('app_reservation_index') }}" class="dropdown-item dropdown-footer">See All Reservations</a>
                             </div>
                         </li>
                         <!-- Notifications Dropdown Menu -->
@@ -138,13 +138,13 @@
                                 <span class="dropdown-item dropdown-header">{{ notifications|length }} Notifications</span>
                                 {% for notification in notifications[0:5] %}
                                     <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ path('app_notifications_show', {'id': notification.id}) }}" class="dropdown-item">
                                         <i class="fas fa-bell mr-2"></i> {{ notification.action }}
                                         <span class="float-right text-muted text-sm">{{ notification.dateAction|date }}</span>
                                     </a>
                                 {% endfor %}
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                                <a href="{{ path('app_notifications_index') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -163,7 +163,7 @@
                         <!-- Sidebar user panel (optional) -->
                         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                             <div class="image">
-                                <img src="{{ asset('assets/images/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                                <img src="{{ asset(app.user.avatar) }}" class="img-circle elevation-2" alt="User Image">
                             </div>
                             <div class="info">
                                 <a href="{{ path('app_settings') }}" class="d-block">{{ app.user.username }}</a>
@@ -181,15 +181,18 @@
 
                                 {% set dashboard_active = false %}{# offers_menus + profits + customers + coffer + reservations + notifications #}
                                 {% set settings_active = false %}{# user + emails + phone_numbers + guests #}
-                                {# todo : add guests to settings #}
 
                                 {% set pages_open = false %}
-                                {% set pages_about_active = false %}{# about + about_photos #}
-                                {% set pages_chefs_active = false %}{# chefs + chefs_slider #}
+                                {% set pages_about_active = false %}{# about #}
+                                {% set pages_about_photos_active = false %}{# about_photos #}
+                                {% set pages_chefs_active = false %}{# chefs #}
+                                {% set pages_chefs_slider_active = false %}{# chefs_slider #}
                                 {% set pages_contact_us_active = false %}{# contact_us #}
-                                {% set pages_products_active = false %}{# day_times + offers + offers_menus #}
-                                {% set pages_header_active = false %}{# header_images + header_slider #}
-                                {# todo : do something for menu_slider #}
+                                {% set pages_offers_active = false %}{# offers #}
+                                {% set pages_offers_menus_active = false %}{# offers_menus #}
+                                {% set pages_day_times_active = false %}{# day_times #}
+                                {% set pages_header_slider_active = false %}{# header_slider #}
+                                {% set pages_header_images_active = false %}{# header_images #}
 
                                 {% set coffer_open = false %}
                                 {% set coffer_active = false %}{# coffer #}
@@ -217,27 +220,42 @@
                                 {% elseif "app_profits" in route %}
                                     {% set coffer_open = true %}
                                     {% set coffer_profits_active = true %}
-                                {% elseif "app_contact" in route %}
+                                {% elseif "app_reservation" in route %}
                                     {% set alerts_open = true %}
                                     {% set alerts_reservation_active = true %}
                                 {% elseif "app_notifications" in route %}
                                     {% set alerts_open = true %}
                                     {% set alerts_notifications_active = true %}
-                                {% elseif "app_about_photos" in route %}
+                                {% elseif "app_field_about" in route %}
                                     {% set pages_open = true %}
                                     {% set pages_about_active = true %}
-                                {% elseif "app_chefs_slider" in route %}
+                                {% elseif "app_about_photos" in route %}
+                                    {% set pages_open = true %}
+                                    {% set pages_about_photos_active = true %}
+                                {% elseif "app_field_chefs" in route %}
                                     {% set pages_open = true %}
                                     {% set pages_chefs_active = true %}
+                                {% elseif "app_chefs_slider" in route %}
+                                    {% set pages_open = true %}
+                                    {% set pages_chefs_slider_active = true %}
                                 {% elseif "app_contact_us" in route %}
                                     {% set pages_open = true %}
-                                    {% set pages_contact_us_active = false %}
-                                {% elseif "app_offers_menus" in route or "app_day_times" in route %}
+                                    {% set pages_contact_us_active = true %}
+                                {% elseif "app_offers_menus" in route %}
                                     {% set pages_open = true %}
-                                    {% set pages_products_active = true %}
+                                    {% set pages_offers_menus_active = true %}
+                                {% elseif "app_field_offers" in route %}
+                                    {% set pages_open = true %}
+                                    {% set pages_offers_active = true %}
+                                {% elseif "app_day_times" in route %}
+                                    {% set pages_open = true %}
+                                    {% set pages_day_times_active = true %}
                                 {% elseif "app_header_slider" in route %}
                                     {% set pages_open = true %}
-                                    {% set pages_header_active = true %}
+                                    {% set pages_header_slider_active = true %}
+                                {% elseif "app_header_images" in route %}
+                                    {% set pages_open = true %}
+                                    {% set pages_header_images_active = true %}
                                 {% endif %}
 
                                 <li class="nav-item {% if dashboard_open %}menu-open{% endif %}">
@@ -267,33 +285,55 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="{{ path('app_about_photos_index') }}" class="nav-link {% if pages_about_active %}active{% endif %}">
+                                            <a href="{{ path('app_field_about_index') }}" class="nav-link {% if pages_about_active %}active{% endif %}">
                                                 <i class="far fa-circle nav-icon"></i>
-                                                <p>About & About Photos</p>
+                                                <p>About</p>
+                                            </a>
+                                            <a href="{{ path('app_about_photos_index') }}" class="nav-link {% if pages_about_photos_active %}active{% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>About Photos</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ path('app_chefs_slider_index') }}" class="nav-link {% if pages_chefs_active %}active{% endif %}">
+                                            <a href="{{ path('app_field_chefs_index') }}" class="nav-link {% if pages_chefs_active %}active{% endif %}">
                                                 <i class="far fa-circle nav-icon"></i>
-                                                <p>Chefs & Chefs Slider</p>
+                                                <p>Chefs</p>
+                                            </a>
+                                            <a href="{{ path('app_chefs_slider_index') }}" class="nav-link {% if pages_chefs_slider_active %}active{% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Chefs Slider</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ path('app_contact_us') }}" class="nav-link {% if pages_contact_us_active %}active{% endif %}">
+                                            <a href="{{ path('app_contact_us_index') }}" class="nav-link {% if pages_contact_us_active %}active{% endif %}">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>Contact Us</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ path('app_offers_menus_index') }}" class="nav-link {% if pages_products_active %}active{% endif %}">
+                                            <a href="{{ path('app_field_offers_index') }}" class="nav-link {% if pages_offers_active %}active{% endif %}">
                                                 <i class="far fa-circle nav-icon"></i>
-                                                <p>Products & Day Times</p>
+                                                <p>Offers</p>
+                                            </a>
+                                            <a href="{{ path('app_offers_menus_index') }}" class="nav-link {% if pages_offers_menus_active %}active{% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Offers Menus</p>
+                                            </a>
+                                            <a href="{{ path('app_day_times_index') }}" class="nav-link {% if pages_day_times_active %}active{% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Day Times</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ path('app_header_slider_index') }}" class="nav-link {% if pages_header_active %}active{% endif %}">
+                                            <a href="{{ path('app_header_images_index') }}" class="nav-link {% if pages_header_images_active %}active{% endif %}">
                                                 <i class="far fa-circle nav-icon"></i>
-                                                <p>Header & Header Slider</p>
+                                                <p>Header</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ path('app_header_slider_index') }}" class="nav-link {% if pages_header_slider_active %}active{% endif %}">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>Header Slider</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -339,7 +379,7 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="{{ path('app_contact_index') }}" class="nav-link {% if alerts_reservation_active %}active{% endif %}">
+                                            <a href="{{ path('app_reservation_index') }}" class="nav-link {% if alerts_reservation_active %}active{% endif %}">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>Reservations</p>
                                             </a>
@@ -414,7 +454,7 @@
                                     {% for message in messages %}
                                         <div class="alert alert-{{ type ? type : '' }} alert-dismissible">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <h6><i class="icon fas fa-info"></i>
+                                            <h6><i class="fas fa-info"></i>
                                                 {{ message|trans({}, domain|default('messages')) }}
                                             </h6>
                                         </div>
@@ -448,8 +488,6 @@
             <!-- overlayScrollbars -->
             <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
         {% endif %}
-
-        {# todo : fix tooltips #}
 
         <script type="text/javascript">
             $(function () {

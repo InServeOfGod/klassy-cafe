@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ProfitsRepository::class)
- * @UniqueEntity("profit_date")
  */
 class Profits
 {
@@ -30,7 +29,7 @@ class Profits
     private $loss;
 
     /**
-     * @ORM\Column(name="profit_date", type="date", unique=true)
+     * @ORM\Column(name="profit_date", type="date")
      */
     private $profit_date;
 

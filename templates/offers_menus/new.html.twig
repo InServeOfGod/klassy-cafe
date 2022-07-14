@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New OffersMenus{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>Create new OffersMenus</h1>
+{% block admin_body %}
+    <section class="container">
+        {{ include('offers_menus/_form.html.twig') }}
+    </section>
+{% endblock %}
 
-    {{ include('offers_menus/_form.html.twig') }}
-
-    <a href="{{ path('app_offers_menus_index') }}">back to list</a>
+{% block js %}
+    <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
 {% endblock %}

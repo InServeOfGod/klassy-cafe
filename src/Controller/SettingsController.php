@@ -8,10 +8,7 @@ use App\Entity\Guests;
 use App\Entity\OffersMenus;
 use App\Entity\PhoneNumbers;
 use App\Entity\Profits;
-use App\Entity\User;
 use App\Form\GuestsCountType;
-use App\Form\UserType;
-use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +39,7 @@ class SettingsController extends AbstractController
 
         $offers_menus = $offersMenusRepo->findAll();
         $profits = $profitRepo->findAll();
-        $customers = $customerRepo->findAllWithMenus();
+        $customers = $customerRepo->findAll();
         $emails = $emailsRepo->findAll();
         $phones = $phoneRepo->findAll();
         $guests = $guestsRepo->findBy([], ['guest' => 'asc']);
@@ -96,33 +93,5 @@ class SettingsController extends AbstractController
                 'form' => $form->createView()
             ]
         );
-    }
-
-    /**
-     * @Route("/user/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
-     */
-    public function editUser(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // if user only wants to edit username then get the current password from database without changing
-            if ($user->getPassword() === null) {
-                $user->setPassword($this->getUser()->getPassword());
-            }
-
-            $userRepository->add($user, true);
-
-            return $this->redirectToRoute('app_admin_settings', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('admin_settings/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-            'title' => 'Edit User',
-            'contacts' => contacts($entityManager),
-            'notifications' => notify($entityManager),
-        ]);
     }
 }

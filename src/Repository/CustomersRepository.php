@@ -39,20 +39,6 @@ class CustomersRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @return Customers[]
-     */
-    public function findAllWithMenus(): array
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('select m, c 
-                        from App\Entity\Customers c
-                        join c.offer_menu m'
-        );
-
-        return $query->getArrayResult();
-    }
-
 //    /**
 //     * @return Customers[] Returns an array of Customers objects
 //     */

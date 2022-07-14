@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New HeaderSlider{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>Create new HeaderSlider</h1>
+{% block admin_body %}
+    <section class="container">
+        {{ include('header_slider/_form.html.twig') }}
+    </section>
+{% endblock %}
 
-    {{ include('header_slider/_form.html.twig') }}
-
-    <a href="{{ path('app_header_slider_index') }}">back to list</a>
+{% block js %}
+    <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
 {% endblock %}

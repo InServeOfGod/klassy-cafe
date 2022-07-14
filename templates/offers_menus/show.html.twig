@@ -1,46 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}OffersMenus{% endblock %}
+{% block title %} | {{ title }}{% endblock %}
 
-{% block body %}
-    <h1>OffersMenus</h1>
+{% block admin_body %}
+    <div class="container">
+        <div class="card card-primary mt-3">
+            <div class="card-header">
+                <h3 class="card-title">{{ title }}</h3>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ offers_menu.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Day Time</th>
+                            <td>{{ offers_menu.dayTime.dayTime }}</td>
+                        </tr>
+                        <tr>
+                            <th>Title</th>
+                            <td>{{ offers_menu.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Subtitle</th>
+                            <td>{{ offers_menu.subtitle }}</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>{{ offers_menu.price }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cost</th>
+                            <td>{{ offers_menu.cost }}</td>
+                        </tr>
+                        <tr>
+                            <th>Photo</th>
+                            <td>
+                                <a href="{{ asset(offers_menu.photo) }}" target="_blank">
+                                    <img src="{{ asset(offers_menu.photo) }}" alt="{{ offers_menu.photo }}" width="64" height="64" class="img-thumbnail">
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Count</th>
+                            <td>{{ offers_menu.count }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <a href="{{ path('app_offers_menus_index') }}" class="float-left btn btn-secondary">
+                    <i class="fas fa-angle-left"></i>
+                    Back to List
+                </a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ offers_menu.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ offers_menu.title }}</td>
-            </tr>
-            <tr>
-                <th>Subtitle</th>
-                <td>{{ offers_menu.subtitle }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ offers_menu.price }}</td>
-            </tr>
-            <tr>
-                <th>Cost</th>
-                <td>{{ offers_menu.cost }}</td>
-            </tr>
-            <tr>
-                <th>Photo</th>
-                <td>{{ offers_menu.photo }}</td>
-            </tr>
-            <tr>
-                <th>Count</th>
-                <td>{{ offers_menu.count }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_offers_menus_index') }}">back to list</a>
-
-    <a href="{{ path('app_offers_menus_edit', {'id': offers_menu.id}) }}">edit</a>
-
-    {{ include('offers_menus/_delete_form.html.twig') }}
+                <div class="float-right">
+                    <a href="{{ path('app_offers_menus_edit', {'id': offers_menu.id}) }}" class="text-secondary" data-toggle="tooltip" data-placement="top" title="edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    {{ include('offers_menus/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

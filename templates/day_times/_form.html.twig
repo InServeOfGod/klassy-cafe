@@ -1,4 +1,42 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{{ title }}</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+
+    <div class="card-body">
+        <div class="form-group">
+            {{ form_row(form.day_time, {attr: {class: 'form-control', placeholder: "Breakfast, Dinner, Lunch, etc."}}) }}
+        </div>
+
+        <div class="form-group">
+            <div class="custom-file">
+                {{ form_widget(form.photo, {attr: {class: 'custom-file-input', id: 'customFile'}}) }}
+                <small class="text-muted">
+                    {{ form_help(form.photo) }}
+                </small>
+
+                <small class="text-danger">
+                    {{ form_errors(form.photo) }}
+                </small>
+                <label class="custom-file-label" for="customFile">{{ day_time.photo ?? null }}</label>
+            </div>
+        </div>
+
+        {% if day_time.photo is not null %}
+            <img src="{{ asset(day_time.photo) }}" alt="{{ day_time.photo }}" width="64" height="64" class="img-rounded">
+        {% endif %}
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary float-left">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_day_times_index') }}" class="float-right btn btn-secondary">
+            <i class="fas fa-angle-left"></i>
+            Back to List
+        </a>
+    </div>
+</div>
 {{ form_end(form) }}
