@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ChefsSliderRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ChefsSliderRepository::class)
@@ -14,6 +15,9 @@ class ChefsSlider
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\Regex (
+     *     pattern="/\d/"
+     * )
      */
     private $id;
 

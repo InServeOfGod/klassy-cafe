@@ -1,5 +1,6 @@
 contact:
     len:
+        name: Your name can not exceed {{ limit }} characters long
         email: Your email address can not exceed {{ limit }} characters long
         phone: Your phone number can not exceed {{ limit }} characters long
         msg: Your message can not exceed {{ limit }} characters long
@@ -8,5 +9,17 @@ contact:
         name: Your name can not contain special characters
         phone: Your phone number is invalid
 
+about:
+    len:
+        video_link: Your video link can not exceed {{ limit }} characters long
+
+about_photos:
+    len:
+        photo:
+
 regex:
     special_chars: This field can not contain special characters
+
+len:
+    photo: The filename of this photo can not exceed {{ limit }} characters long
+    title: Your title can not exceed {{ limit }} characters long

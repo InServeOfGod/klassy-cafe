@@ -15,6 +15,9 @@ class Contact
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\Regex (
+     *     pattern="/\d/"
+     * )
      */
     private $id;
 
@@ -24,6 +27,10 @@ class Contact
      *     pattern="/[$&+,:;=?@#|'<>.^*()%!-]/",
      *     match=false,
      *     message="regex.special_chars"
+     * )
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="contact.len.name"
      * )
      */
     private $name;

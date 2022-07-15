@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 
 class PhotosType extends AbstractType
 {
@@ -17,16 +16,6 @@ class PhotosType extends AbstractType
                 'label' => "Select Photo : ",
                 'help' => "Select file up to ~2MB with (*.png, *.jpg, *.jpeg) file extensions.",
                 'mapped' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2048k',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpg',
-                            'image/jpeg'
-                        ],
-                    ])
-                ]
             ])
         ;
     }

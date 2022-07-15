@@ -9,7 +9,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 
 class OffersMenusType extends AbstractType
 {
@@ -29,16 +28,6 @@ class OffersMenusType extends AbstractType
                 'help' => "Select file up to ~2MB with (*.png, *.jpg, *.jpeg) file extensions.",
                 'mapped' => false,
                 'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2048k',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpg',
-                            'image/jpeg'
-                        ],
-                    ])
-                ]
             ])
         ;
     }
