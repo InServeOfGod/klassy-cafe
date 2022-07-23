@@ -23,31 +23,72 @@ class ChefsSlider
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *     pattern="/[$&+,:;=?@#|'<>.^*()%!-]/",
+     *     match=false,
+     *     message="regex.special_chars"
+     * )
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="len.title"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *     pattern="/[$&+,:;=?@#|'<>.^*()%!-]/",
+     *     match=false,
+     *     message="regex.special_chars"
+     * )
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="len.title"
+     * )
      */
     private $subtitle;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(
+     *     maxSize="2048k",
+     *     mimeTypes={"image/png", "image/jpg", "image/jpeg"}
+     * )
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="len.photo"
+     * )
      */
     private $photo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url()
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="about.len.video_link"
+     * )
      */
     private $facebook;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url()
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="about.len.video_link"
+     * )
      */
     private $twitter;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url()
+     * @Assert\Length(
+     *     max=255,
+     *     maxMessage="about.len.video_link"
+     * )
      */
     private $instagram;
 

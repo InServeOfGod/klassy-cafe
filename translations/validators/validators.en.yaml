@@ -19,6 +19,7 @@ about_photos:
 
 regex:
     special_chars: This field can not contain special characters
+    money: This is not a valid content for money
 
 len:
     photo: The filename of this photo can not exceed {{ limit }} characters long
